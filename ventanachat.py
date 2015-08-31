@@ -63,8 +63,9 @@ class Ui_MainWindow(object):
             mensajechatultimo = (elementos.findAll(".message")).last()
             mensajechattemp =  (mensajechatultimo).toPlainText()
             mensajechattemp2 = mensajechattemp.replace('\\','\\\\').replace('"','\\"').replace('\n',' ')
-
             nickname = (mensajechatultimo.findFirst(".nickname")).toInnerXml()
+
+
 
             mensajechat = mensajechattemp2[len(nickname):len(mensajechattemp2)]
 
@@ -72,6 +73,15 @@ class Ui_MainWindow(object):
             if self.mensajenuevo!=mensajescantidad:
                 self.mensajenuevo = mensajescantidad
                 if nickname!="":
+
+                    #*****************************
+
+                    emoticonescantidad =  mensajechatultimo.findAll('.emoticon').toList()
+                    for el in emoticonescantidad:
+                        print(el.attribute("alt"));
+                    #emoticonesnick =  mensajechatultimo.findFirst('.emoticon').attribute("alt")
+
+                    #*****************************
                     escribirjson("msg",str(mensajescantidad),nickname,mensajechat)
                 else:
                     nicknuevo = mensajechat[ 0 : (len(mensajechat))-17]
@@ -80,7 +90,7 @@ class Ui_MainWindow(object):
         def tiempotimer():
             global timer
             timer = QtCore.QTimer()
-            timer.start(100)
+            timer.start(2000)
             timer.timeout.connect(mensajeschat)
 
         tiempotimer()
